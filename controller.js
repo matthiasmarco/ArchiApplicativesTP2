@@ -9,12 +9,13 @@ function setupTaskForm(taskManager) {
     form.addEventListener('submit', event => {
         event.preventDefault();
         const input = document.getElementById('task-input');
+        const category = document.getElementById('category-input').value;
         const taskText = input.value.trim();
         if (taskText !== '') {
-            const task = new Task(taskText); // Assuming default task creation
-            taskManager.addTask(task);
+            taskManager.addTask(taskText, category);
             input.value = '';
             displayTasks(taskManager.tasks);
         }
     });
 }
+

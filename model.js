@@ -1,12 +1,6 @@
 class Task {
-    constructor(description) {
-        this.description = description;
-    }
-}
-
-class AdvancedTask extends Task {
     constructor(description, category) {
-        super(description);
+        this.description = description;
         this.category = category;
     }
 }
@@ -20,7 +14,8 @@ class TaskManager {
         TaskManager.instance = this;
     }
 
-    addTask(task) {
+    addTask(description, category) {
+        const task = new Task(description, category);
         this.tasks.push(task);
     }
 
