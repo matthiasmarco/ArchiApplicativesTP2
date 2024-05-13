@@ -1,12 +1,30 @@
 class TaskRenderer {
-    constructor(task) {
-        this.task = task;
+    render(task) {
+        throw new Error('La méthode render doit être implémentée par les sous-classes.');
+    }
+}
+
+class TaskListRenderer extends TaskRenderer {
+    constructor(tasks) {
+        super();
+        this.tasks = tasks;
     }
 
-    render() {
-        const taskElement = document.createElement('div');
-        taskElement.className = 'task ' + this.task.category;
-        taskElement.textContent = this.task.description;
+    renderList() {
+        const listElement = document.createElement('ul');
+
+        this.tasks.forEach(task => {
+            const taskElement = this.render(task);
+            listElement.appendChild(taskElement);
+        });
+
+        return listElement;
+    }
+
+    render(task) {
+        const taskElement = document.createElement('li');
+        taskElement.className = 'task ' + task.category;
+        taskElement.textContent = task.description;
         return taskElement;
     }
 }
@@ -15,9 +33,13 @@ function displayTasks(taskList) {
     const tasksContainer = document.getElementById('tasks-container');
     tasksContainer.innerHTML = '';
 
-    taskList.forEach(task => {
-        const renderer = new TaskRenderer(task);
-        tasksContainer.appendChild(renderer.render());
-    });
+    const renderer = new TaskListRenderer(taskList);
+    tasksContainer.appendChild(renderer.renderList());
 }
+
+// Utilisation :
+const taskList = ['travail','maison','divers'];
+const listRenderer = new TaskListRenderer(taskList);
+const tasksContainer = document.getElementById('tasks-container');
+tasksContainer.appendChild(listRenderer.renderList());
 
